@@ -42,7 +42,11 @@ class PubSub {
 
     async publish({ channel, message }) {
         try {
-            await this.publisher.publish(channel, message);
+            this.subscriber.unsubscribe(channel,() =>{
+                 this.publisher.publish(channel, message, () =>{
+                    this.subscriber.subscribe(channel);
+                 });
+            })
         } catch (error) {
             console.error('Error publishing message:', error);
         }
@@ -57,4 +61,3 @@ class PubSub {
 }
 
 module.exports = PubSub;
-    
