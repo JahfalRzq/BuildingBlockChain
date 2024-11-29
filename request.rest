@@ -1,0 +1,15 @@
+
+###
+GET http://localhost:3000/api/blocks
+Content-Type: application/json
+
+
+
+###
+POST http://localhost:3000/api/mine
+Content-Type: application/json
+
+
+{
+    "data" : "foo-data"
+}
