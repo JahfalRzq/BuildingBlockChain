@@ -8,8 +8,8 @@
     "dev-peer": "cross-env GENERATE_PEER_PORT='true' nodemon index.js",
     "dev": "nodemon index.js"
   },
-  "jest" : {
-    "testEnvironment" : "node"
+  "jest": {
+    "testEnvironment": "node"
   },
   "keywords": [],
   "author": "",
@@ -27,6 +27,7 @@
     "hex-to-binary": "^1.0.1",
     "pubnub": "^8.3.1",
     "redis": "^4.7.0",
-    "request": "^2.88.2"
+    "request": "^2.88.2",
+    "uuid": "^11.0.3"
   }
 }
