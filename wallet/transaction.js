@@ -5,44 +5,51 @@ class Transaction {
     constructor({ senderWallet, recipient, amount }) {
         this.id = uuidv4();
         this.outputMap = this.createOutputMap({ senderWallet, recipient, amount });
-        this.input = this.createInput({senderWallet, outputMap : this.outputMap});
+        this.input = this.createInput({ senderWallet, outputMap: this.outputMap });
     }
 
     createOutputMap({ senderWallet, recipient, amount }) {
-        const outputMap = {};
+        if (amount > senderWallet.balance) {
+            throw new Error('Amount exceeds balance');
+        }
 
+        const outputMap = {};
         outputMap[recipient] = amount;
         outputMap[senderWallet.publicKey] = senderWallet.balance - amount;
 
         return outputMap;
     }
 
-    createInput({senderWallet, outputMap}){
-        return{
-            timestamp : Date.now(),
-            amount : senderWallet.balance,
-            address : senderWallet.publicKey,
-            signature : senderWallet.sign(outputMap)
+    createInput({ senderWallet, outputMap }) {
+        if (!senderWallet.balance) {
+            throw new Error('Sender wallet balance is undefined');
+        }
+
+        return {
+            timestamp: Date.now(),
+            amount: senderWallet.balance,
+            address: senderWallet.publicKey,
+            signature: senderWallet.sign(outputMap)
         };
     }
 
     static validTransaction(transaction) {
+        const { input: { address, amount, signature }, outputMap } = transaction;
 
-      const { input: { address, amount, signature }, outputMap } = transaction;
+        const outputTotal = Object.values(outputMap)
+            .reduce((total, outputAmount) => total + outputAmount, 0);
 
-      const outputTotal = Object.values(outputMap)
-        .reduce((total, outputAmount) => total + outputAmount);
-     
         if (amount !== outputTotal) {
-        console.error(`Invalid transaction from ${address}`);
-        return false;
-      }
-     
-      if (!verifySignature({ publicKey: address, data: outputMap, signature })) {
-        console.error(`Invalid signature from ${address}`);
-        return false;
-      }
-      return true;
+            console.error(`Invalid transaction from ${address}`);
+            return false;
+        }
+
+        if (!verifySignature({ publicKey: address, data: outputMap, signature })) {
+            console.error(`Invalid signature from ${address}`);
+            return false;
+        }
+
+        return true;
     }
 }
 

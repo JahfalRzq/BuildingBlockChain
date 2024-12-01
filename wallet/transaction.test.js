@@ -31,66 +31,60 @@ describe('Transaction', () => {
         });
     });
 
-    describe('input', () =>{
-        it('has an`input`',() =>{
+    describe('input', () => {
+        it('has an `input`', () => {
             expect(transaction).toHaveProperty('input');
         });
 
-        it('has a `timestamp` in the input', () =>{
+        it('has a `timestamp` in the input', () => {
             expect(transaction.input).toHaveProperty('timestamp');
         });
 
-        it('sets the `amount` to the `senderWallet` balance', () =>{
+        it('sets the `amount` to the `senderWallet` balance', () => {
             expect(transaction.input.amount).toEqual(senderWallet.balance);
         });
 
-        it('sets the `address` to the `senderWallet` publicKey',() =>{
+        it('sets the `address` to the `senderWallet` publicKey', () => {
             expect(transaction.input.address).toEqual(senderWallet.publicKey);
         });
 
-        it('signs the input', () =>{
+        it('signs the input', () => {
             expect(
-            verifySignature({
-                publicKey : senderWallet.publicKey,
-                data : transaction.outputMap,
-                signature : transaction.input.signature,
-
-            })
-        ).toBe(true)
+                verifySignature({
+                    publicKey: senderWallet.publicKey,
+                    data: transaction.outputMap,
+                    signature: transaction.input.signature
+                })
+            ).toBe(true);
         });
     });
 
     describe('validTransaction', () => {
+        let errorMock;
 
-      let errorMock;
-
-      beforeEach(() => {
-        errorMock = jest.fn();
-        global.console.error = errorMock;
-      });
-
-      describe('when the transaction is valid', () => {
-        it('returns true', () => {
-          expect(Transaction.validTransaction(transaction)).toBe(true);
+        beforeEach(() => {
+            errorMock = jest.fn();
+            global.console.error = errorMock;
         });
-      });
 
-      describe('when the transaction is invalid', () => {
-        describe('and a transaction outputMap value is invalid', () => {
-          it('returns false and logs an error', () => {
-            transaction.outputMap[senderWallet.publicKey] = 999999;
-            expect(Transaction.validTransaction(transaction)).toBe(false);
-            expect(errorMock).toHaveBeenCalled();
-          });
+        describe('when the transaction is valid', () => {
+            it('returns true', () => {
+                expect(Transaction.validTransaction(transaction)).toBe(true);
+            });
         });
-        
-        describe('and a transaction input Signature is invalid', () => {
-          it('returns false and logs an error', () => {
-            transaction.input.signature = new Wallet().sign('data');
-            expect(Transaction.validTransaction(transaction)).toBe(false);
-            expect(errorMock).toHaveBeenCalled();
-          });
+
+        describe('when the transaction is invalid', () => {
+            it('returns false and logs an error when outputMap is invalid', () => {
+                transaction.outputMap[senderWallet.publicKey] = 999999;
+                expect(Transaction.validTransaction(transaction)).toBe(false);
+                expect(errorMock).toHaveBeenCalled();
+            });
+
+            it('returns false and logs an error when signature is invalid', () => {
+                transaction.input.signature = new Wallet().sign('data');
+                expect(Transaction.validTransaction(transaction)).toBe(false);
+                expect(errorMock).toHaveBeenCalled();
+            });
         });
-      });
-    })
+    });
 });
