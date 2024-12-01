@@ -82,4 +82,42 @@ describe('Transaction', () => {
             });
         });
     });
+
+    describe('update', () =>{
+      let originalSignatue, originalSenderOutput, nextRecipient, nextAmount;
+
+      beforeEach(() =>{
+        originalSignatue  = transaction.input.signature;
+        originalSenderOutput = transaction.outputMap[senderWallet.publicKey];
+        nextRecipient = 'next recipient';
+        nextAmount = 50;
+
+        transaction.update({
+          senderWallet, 
+          recipient : nextRecipient, 
+          amount : nextAmount
+        });
+      });
+
+      it('ouputs the amount to the next recipient', () =>{
+        expect(transaction.outputMap[nextRecipient]).toEqual(nextAmount);
+      });
+
+      it('substracts the amount from the original sender ouput amount', () =>{
+        expect(transaction.outputMap[senderWallet.publicKey])
+        .toEqual(originalSenderOutput - nextAmount);
+      });
+
+      it('maintains a total output that matches the input amount', () =>{
+        expect(
+          Object.values(transaction,outputMap).reduce(() => total + outputMap)
+        ).toEqual(transaction.input.amount)
+
+      });
+
+      it('re-signs the transaction', () =>{
+        expect(transaction.input.signature).not.toEqual(originalSignatue);
+      });
+
+    });
 });
