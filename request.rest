@@ -13,3 +13,13 @@ Content-Type: application/json
 {
     "data" : "foo-data"
 }
+
+###
+POST http://localhost:3000/api/transactions
+Content-Type: application/json
+
+
+{
+    "recipient" : "foo",
+    "amount" : 75
+}
