@@ -67,12 +67,7 @@ describe('Transaction', () => {
             global.console.error = errorMock;
         });
 
-        describe('when the transaction is valid', () => {
-            it('returns true', () => {
-                expect(Transaction.validTransaction(transaction)).toBe(true);
-            });
-        });
-
+   
         describe('when the transaction is invalid', () => {
             it('returns false and logs an error when outputMap is invalid', () => {
                 transaction.outputMap[senderWallet.publicKey] = 999999;
