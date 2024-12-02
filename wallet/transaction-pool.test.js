@@ -25,6 +25,7 @@ describe('TransactionPool', () =>{
         });
     });  
     
+    
     describe('existingTransaction' , () =>{
         it('returns an existing transaction given an input address',() =>{
             transactionPool.setTransaction(transaction);

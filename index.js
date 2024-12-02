@@ -62,7 +62,11 @@ app.post('/api/transactions', (req,res) =>{
     console.log('transactionPool :', transactionPool);
 
     res.json({type :'success',transaction});
-})
+});
+
+app.get('/api/transaction-pool-map', (req,res) =>{
+    res.json(transactionPool.transactionMap);
+});
 
 const syncChains = () =>{
     request({url : `${ROOT_NODE_ADDRESS}/api/blocks`}, (error,response,body) =>{
