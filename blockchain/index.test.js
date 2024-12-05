@@ -2,6 +2,8 @@ const Blockchain = require('.');
 const Block = require('./block');
 const {cryptoHash} = require('../util');
 const hexToBinary = require('hex-to-binary');
+const Wallet = require('../wallet');
+const Transaction = require('../wallet/transaction');
 
 
 

@@ -22,6 +22,11 @@ class Transaction {
     }
 
     createInput({ senderWallet, outputMap }) {
+
+        if (senderWallet.balance === undefined) {
+            throw new Error('Sender wallet balance is undefined');
+          }
+
         if (!senderWallet.balance) {
             throw new Error('Sender wallet balance is undefined');
         }
