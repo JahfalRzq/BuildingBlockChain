@@ -22,6 +22,8 @@ const ROOT_NODE_ADDRESS = `http://localhost:${DEFAULT_PORT}`;
 setTimeout(() => pubsub.broadcastChain(),1000);
 
 app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname, 'client/dist')));
+
 
 app.get('/api/blocks',(req,res) => {
     res.json(blockchain.chain)
@@ -92,8 +94,8 @@ app.get('/api/wallet-info', (req, res) => {
   });
 
   app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, './client/index.html'));
-  });
+    res.sendFile(path.join(__dirname, 'client/index.html'));
+});
 
 const syncWithRootState = () =>{
     request({url : `${ROOT_NODE_ADDRESS}/api/blocks`}, (error,response,body) =>{
@@ -106,7 +108,7 @@ const syncWithRootState = () =>{
         }
 
     });
-    
+
     request({url: `${ROOT_NODE_ADDRESS}/api/transaction-pool-map`},(error,response,body) =>{
         if(!error && response.statusCode === 200) {
             const rootTransactionPoolMap = JSON.parse(body);
