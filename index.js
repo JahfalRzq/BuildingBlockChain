@@ -5,7 +5,9 @@ const Blockchain =  require('./blockchain');
 const PubSub = require('./app/pubsub');
 const TransactionPool = require('./wallet/transaction-pool');
 const Wallet = require('./wallet');
-const TransactionMiner = require('./app/transaction-miner')
+const TransactionMiner = require('./app/transaction-miner');
+const path = require('path');
+
 
 const app = express();
 const blockchain = new Blockchain();
@@ -89,6 +91,10 @@ app.get('/api/wallet-info', (req, res) => {
     });
   });
 
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, './client/index.html'));
+  });
+
 const syncWithRootState = () =>{
     request({url : `${ROOT_NODE_ADDRESS}/api/blocks`}, (error,response,body) =>{
         if(!error && response.statusCode == 200){
@@ -100,6 +106,7 @@ const syncWithRootState = () =>{
         }
 
     });
+    
     request({url: `${ROOT_NODE_ADDRESS}/api/transaction-pool-map`},(error,response,body) =>{
         if(!error && response.statusCode === 200) {
             const rootTransactionPoolMap = JSON.parse(body);
