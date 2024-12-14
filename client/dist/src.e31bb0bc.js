@@ -32658,14 +32658,14 @@ var Block = /*#__PURE__*/function (_Component) {
             transaction: transaction
           }));
         }), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
-          bsStyle: "danger",
-          bsSize: "small",
+          variant: "danger",
+          size: "sm",
           onClick: this.toggleTransaction
         }, "Show Less"));
       }
       return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("div", null, "Data: ", dataDisplay), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
-        bsStyle: "danger",
-        bsSize: "small",
+        variant: "danger",
+        size: "sm",
         onClick: this.toggleTransaction
       }, "Show More"));
     }
@@ -32913,7 +32913,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "44759" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "44511" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
