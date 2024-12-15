@@ -43455,6 +43455,25 @@ var ConductTransaction = /*#__PURE__*/function (_Component) {
         amount: Number(event.target.value)
       });
     });
+    _defineProperty(_this, "conductTransaction", function () {
+      var _this$state = _this.state,
+        recipient = _this$state.recipient,
+        amount = _this$state.amount;
+      fetch('http://localhost:3000/api/transact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          recipient: recipient,
+          amount: amount
+        })
+      }).then(function (response) {
+        return response.json();
+      }).then(function (json) {
+        alert(json.message || json.type);
+      });
+    });
     return _this;
   }
   _inherits(ConductTransaction, _Component);
@@ -43476,7 +43495,10 @@ var ConductTransaction = /*#__PURE__*/function (_Component) {
         placeholder: "amount",
         value: this.state.amount,
         onChange: this.updateAmount
-      })));
+      })), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
+        bsStyle: "danger",
+        onClick: this.conductTransaction
+      }, "Submit")));
     }
   }]);
 }(_react.Component);
@@ -43533,7 +43555,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "34943" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "42323" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
