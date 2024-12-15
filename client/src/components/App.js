@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 
 
 
+
 class App extends Component {
 
     state = { walletInfo: {} };
@@ -25,9 +26,12 @@ class App extends Component {
         <img className='logo' src={logo}></img>
         <br />
         <div>Welcome to the blockchain...</div>
+        
         <br />
+
         <div><Link to='/blocks'>Blocks</Link></div>
         <div><Link to='/conduct-transaction'>Conduct a Transaction</Link></div>
+        <div><Link to='/transaction-pool'>Transaction Pool</Link></div>
 
         <br />
 
