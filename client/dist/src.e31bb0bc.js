@@ -43459,7 +43459,7 @@ var ConductTransaction = /*#__PURE__*/function (_Component) {
       var _this$state = _this.state,
         recipient = _this$state.recipient,
         amount = _this$state.amount;
-      fetch('http://localhost:3000/api/transact', {
+      fetch('http://localhost:3000/api/transactions', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
